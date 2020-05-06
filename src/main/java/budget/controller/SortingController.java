@@ -26,7 +26,7 @@ public class SortingController {
 
         System.out.println("\nAll:");
         sortedList.forEach((name, sum) ->
-                System.out.println(name + "$" + String.format("%.2f", sum)));
+                System.out.println(name + " $" + String.format("%.2f", sum)));
 
         double sumOfPurchasesInList = getSumOfPurchasesInList(sortedList);
         System.out.println(Util.TOTAL_SUM

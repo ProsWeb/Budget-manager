@@ -18,7 +18,7 @@ public class ListWithProductsView {
 
         System.out.println("\n" + listName + ":");
         listOfProducts.forEach((name, cost) ->
-                System.out.println(name + "$" + String.format("%.2f", cost)));
+                System.out.println(name + " $" + String.format("%.2f", cost)));
 
         double sumOfPurchasesInList = getSumOfPurchasesInList(listOfProducts);
         System.out.println(Util.TOTAL_SUM + showSum(sumOfPurchasesInList));
@@ -56,7 +56,7 @@ public class ListWithProductsView {
 
         System.out.println(listName + ":");
         listOfProducts.forEach((name, cost) ->
-                System.out.println(name + "$" + String.format("%.2f", cost)));
+                System.out.println(name + " $" + String.format("%.2f", cost)));
     }
 
     private double getSumOfPurchasesInList(final Map<String, Double> list) {
