@@ -115,8 +115,6 @@ public class FillListController {
 
         listOfPurchases.put(nameOfProduct, costOfProduct);
         balance.subtractIncome(costOfProduct);
-
-        System.out.println("Purchase was added!");
     }
 
     private void saveList(final Map<String, Double> listOfProducts,

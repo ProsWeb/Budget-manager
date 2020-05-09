@@ -14,8 +14,14 @@ public class Balance {
     public void addAIncome(final Scanner sc) {
 
         System.out.println("\nEnter income:");
-        this.income += (double) Math.round(sc.nextDouble() * 100d) / 100d;
-        System.out.println("Income was added!");
+        double amount = sc.nextDouble();
+        if (amount > 0) {
+            this.income += (double) Math.round(amount * 100d) / 100d;
+            System.out.println("Income was added!");
+            return;
+        }
+
+        System.out.println("Income can't be negative");
     }
 
     public void setIncomeFromFile() {
@@ -28,7 +34,11 @@ public class Balance {
                 if (currentLine.contains("Balance")) {
                     double balanceFromFile =
                             Double.parseDouble(currentLine.split("\\$")[1]);
-                    this.income = (double) Math.round(balanceFromFile * 100d) / 100d;
+                    if (balanceFromFile > 0) {
+                        this.income = (double) Math.round(balanceFromFile * 100d) / 100d;
+                    } else {
+                        System.out.print("Can't load negative income from file.");
+                    }
                 }
             }
         } catch (IOException e) {
@@ -49,7 +59,14 @@ public class Balance {
     }
 
     public void subtractIncome(final double costOfProduct) {
-        this.income -= (double) Math.round(costOfProduct * 100d) / 100d;
+        if (income >= costOfProduct) {
+            this.income -= (double) Math.round(costOfProduct * 100d) / 100d;
+            System.out.println("Purchase was added!");
+            return;
+        }
+
+        System.out.println("You can't afford this purchase\n"
+                            + "Your income: " + income);
     }
 
     public double getIncome() {
