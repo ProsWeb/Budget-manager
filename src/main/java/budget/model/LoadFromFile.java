@@ -6,6 +6,7 @@ import budget.controller.FillListController;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -23,7 +24,7 @@ public class LoadFromFile {
     }
 
     private void fillListFromFile(
-            final Map<String, Double> listOfPurchases, final String listName)
+            final Map<String, BigDecimal> listOfPurchases, final String listName)
             throws FileNotFoundException {
 
         File fileWithPurchases = new File(Util.PATH_TO_FILE);
@@ -43,8 +44,8 @@ public class LoadFromFile {
                         int dollarIndex = currentLine.lastIndexOf('$');
                         String nameOfProduct =
                                 currentLine.substring(0, dollarIndex);
-                        Double costOfProduct = Double.parseDouble(
-                                currentLine.substring(dollarIndex + 1));
+                        BigDecimal costOfProduct =
+                                new BigDecimal(currentLine.substring(dollarIndex + 1));
                         listOfPurchases.put(nameOfProduct, costOfProduct);
                     }
                 }

@@ -3,6 +3,7 @@ package budget.controller;
 import budget.Util;
 import budget.view.ListWithProductsView;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -14,21 +15,21 @@ public class SortingController {
     public void sortAll(final FillListController fillListController,
                         final ListWithProductsView listWithProductsView) {
 
-        Map<String, Double> listWithAllPurchases =
+        Map<String, BigDecimal> listWithAllPurchases =
                 fillListController.fillListWithAllPurchases();
         if (listWithAllPurchases.isEmpty()) {
             System.out.println("\nPurchase list is empty!");
             return;
         }
 
-        Map<String, Double> sortedList =
+        Map<String, BigDecimal> sortedList =
                 sortListDescendingOrder(listWithAllPurchases);
 
         System.out.println("\nAll:");
         sortedList.forEach((name, sum) ->
                 System.out.println(name + " $" + String.format("%.2f", sum)));
 
-        double sumOfPurchasesInList = getSumOfPurchasesInList(sortedList);
+        BigDecimal sumOfPurchasesInList = getSumOfPurchasesInList(sortedList);
         System.out.println(Util.TOTAL_SUM
                 + listWithProductsView.showSum(sumOfPurchasesInList));
     }
@@ -36,15 +37,15 @@ public class SortingController {
     public void sortByType(final ListWithProductsView listWithProductsView,
                            final FillListController fillListController) {
 
-        Map<String, Double> filledList = fillListByType(fillListController);
-        Map<String, Double> sortedPurchasesByType =
+        Map<String, BigDecimal> filledList = fillListByType(fillListController);
+        Map<String, BigDecimal> sortedPurchasesByType =
                 sortListDescendingOrder(filledList);
 
         System.out.println("\nTypes:");
         sortedPurchasesByType.forEach((name, sum) ->
                 System.out.println(name + " - $" + String.format("%.2f", sum)));
 
-        double sumOfPurchasesInList =
+        BigDecimal sumOfPurchasesInList =
                 getSumOfPurchasesInList(sortedPurchasesByType);
         System.out.println(Util.TOTAL_SUM
                 + listWithProductsView.showSum(sumOfPurchasesInList));
@@ -65,22 +66,22 @@ public class SortingController {
         int typeOfPurchase = sc.nextInt();
         switch (typeOfPurchase) {
             case 1:
-                Map<String, Double> sortedFoodList =
+                Map<String, BigDecimal> sortedFoodList =
                         sortListDescendingOrder(fillListController.getFoodList());
                 listWithProductsView.showOneList(sortedFoodList, Util.FOOD_LIST_NAME);
                 break;
             case 2:
-                Map<String, Double> sortedClothesList =
+                Map<String, BigDecimal> sortedClothesList =
                         sortListDescendingOrder(fillListController.getClothesList());
                 listWithProductsView.showOneList(sortedClothesList, Util.CLOTHES_LIST_NAME);
                 break;
             case 3:
-                Map<String, Double> sortedEntertainmentList =
+                Map<String, BigDecimal> sortedEntertainmentList =
                         sortListDescendingOrder(fillListController.getEntertainmentList());
                 listWithProductsView.showOneList(sortedEntertainmentList, Util.ENTERTAINMENT_LIST_NAME);
                 break;
             case 4:
-                Map<String, Double> sortedOtherList =
+                Map<String, BigDecimal> sortedOtherList =
                         sortListDescendingOrder(fillListController.getOtherList());
                 listWithProductsView.showOneList(sortedOtherList, Util.OTHER_LIST_NAME);
                 break;
@@ -89,13 +90,13 @@ public class SortingController {
         }
     }
 
-    public double getSumOfPurchasesInList(final Map<String, Double> list) {
+    public BigDecimal getSumOfPurchasesInList(final Map<String, BigDecimal> list) {
 
-        return list.values().stream().reduce(0.0, Double::sum);
+        return list.values().stream().reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private Map<String, Double> sortListDescendingOrder(
-            final Map<String, Double> listWithPurchases) {
+    private Map<String, BigDecimal> sortListDescendingOrder(
+            final Map<String, BigDecimal> listWithPurchases) {
 
         return listWithPurchases.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
@@ -104,10 +105,10 @@ public class SortingController {
                         (e1, e2) -> e1, LinkedHashMap::new));
     }
 
-    private Map<String, Double> fillListByType(
+    private Map<String, BigDecimal> fillListByType(
             final FillListController fillListController) {
 
-        Map<String, Double> allPurchasesList = new LinkedHashMap<>();
+        Map<String, BigDecimal> allPurchasesList = new LinkedHashMap<>();
         allPurchasesList.put(Util.FOOD_LIST_NAME,
                 getSumOfPurchasesInList(fillListController.getFoodList()));
         allPurchasesList.put(Util.CLOTHES_LIST_NAME,

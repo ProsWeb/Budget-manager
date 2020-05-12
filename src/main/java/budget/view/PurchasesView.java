@@ -4,6 +4,7 @@ import budget.Util;
 import budget.controller.FillListController;
 import budget.controller.SortingController;
 
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -14,10 +15,11 @@ public class PurchasesView {
                            final FillListController fillListController,
                            final ListWithProductsView listWithProductsView) {
 
-        Map<String, Double> listWithAllPurchases =
+        Map<String, BigDecimal> listWithAllPurchases =
                 fillListController.fillListWithAllPurchases();
         boolean allListsAreEmpty = sortingController
-                        .getSumOfPurchasesInList(listWithAllPurchases) == 0.0;
+                        .getSumOfPurchasesInList(listWithAllPurchases)
+                        .compareTo(BigDecimal.ZERO) == 0.0;
         if (allListsAreEmpty) {
             System.out.println("\nPurchase list is empty");
             return;

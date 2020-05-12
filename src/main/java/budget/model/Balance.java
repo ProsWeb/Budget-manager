@@ -5,19 +5,21 @@ import budget.Util;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Balance {
 
-    private double income = 0.0;
+    private BigDecimal income = new BigDecimal("0.0");
 
     public void addAIncome(final Scanner sc) {
 
         System.out.println("\nEnter income:");
-        double amount = sc.nextDouble();
-        if (amount > 0) {
-            this.income += (double) Math.round(amount * 100d) / 100d;
+        BigDecimal amount = sc.nextBigDecimal();
+        if (amount.compareTo(BigDecimal.ZERO) > 0) {
+            income = income.add(amount);
             System.out.println("Income was added!");
+
             return;
         }
 
@@ -32,10 +34,10 @@ public class Balance {
             while (sc.hasNext()) {
                 String currentLine = sc.nextLine();
                 if (currentLine.contains("Balance")) {
-                    double balanceFromFile =
-                            Double.parseDouble(currentLine.split("\\$")[1]);
-                    if (balanceFromFile > 0) {
-                        this.income = (double) Math.round(balanceFromFile * 100d) / 100d;
+                    BigDecimal balanceFromFile =
+                            new BigDecimal(currentLine.split("\\$")[1]);
+                    if (balanceFromFile.compareTo(BigDecimal.ZERO) > 0) {
+                        income = balanceFromFile;
                     } else {
                         System.out.print("Can't load negative income from file.");
                     }
@@ -51,17 +53,18 @@ public class Balance {
         File fileWithPurchases = new File(Util.PATH_TO_FILE);
 
         try (FileWriter writer = new FileWriter(fileWithPurchases, true)) {
-            writer.write("\nBalance: $"
-                    + (double) Math.round(this.income * 100d) / 100d);
+            writer.write("\nBalance: $" + income);
         } catch (IOException e) {
             System.out.printf("An exception occurs %s", e.getMessage());
         }
     }
 
-    public void subtractIncome(final double costOfProduct) {
-        if (income >= costOfProduct) {
-            this.income -= (double) Math.round(costOfProduct * 100d) / 100d;
+    public void subtractIncome(final BigDecimal costOfProduct) {
+
+        if (income.compareTo(costOfProduct) > 0) {
+            income = income.subtract(costOfProduct);
             System.out.println("Purchase was added!");
+
             return;
         }
 
@@ -69,7 +72,7 @@ public class Balance {
                             + "Your income: " + income);
     }
 
-    public double getIncome() {
-        return (double) Math.round(this.income * 100d) / 100d;
+    public BigDecimal getIncome() {
+        return income;
     }
 }

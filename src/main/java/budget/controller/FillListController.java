@@ -7,33 +7,34 @@ import budget.view.ListWithProductsView;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class FillListController {
 
-    private final Map<String, Double> foodList = new LinkedHashMap<>();
-    private final Map<String, Double> clothesList = new LinkedHashMap<>();
-    private final Map<String, Double> entertainmentList = new LinkedHashMap<>();
-    private final Map<String, Double> otherList = new LinkedHashMap<>();
+    private final Map<String, BigDecimal> foodList = new LinkedHashMap<>();
+    private final Map<String, BigDecimal> clothesList = new LinkedHashMap<>();
+    private final Map<String, BigDecimal> entertainmentList = new LinkedHashMap<>();
+    private final Map<String, BigDecimal> otherList = new LinkedHashMap<>();
 
-    public Map<String, Double> getFoodList() {
+    public Map<String, BigDecimal> getFoodList() {
         return foodList;
     }
-    public Map<String, Double> getClothesList() {
+    public Map<String, BigDecimal> getClothesList() {
         return clothesList;
     }
-    public Map<String, Double> getEntertainmentList() {
+    public Map<String, BigDecimal> getEntertainmentList() {
         return entertainmentList;
     }
-    public Map<String, Double> getOtherList() {
+    public Map<String, BigDecimal> getOtherList() {
         return otherList;
     }
 
-    public Map<String, Double> fillListWithAllPurchases() {
+    public Map<String, BigDecimal> fillListWithAllPurchases() {
 
-        Map<String, Double> list = new LinkedHashMap<>();
+        Map<String, BigDecimal> list = new LinkedHashMap<>();
         list.putAll(foodList);
         list.putAll(clothesList);
         list.putAll(entertainmentList);
@@ -92,7 +93,7 @@ public class FillListController {
             saveList(entertainmentList, Util.ENTERTAINMENT_LIST_NAME, writer);
             saveList(otherList, Util.OTHER_LIST_NAME, writer);
 
-            double sumOfPurchasesInAllLists = sortingController
+            BigDecimal sumOfPurchasesInAllLists = sortingController
                     .getSumOfPurchasesInList(fillListWithAllPurchases());
 
             writer.write("\n" + Util.TOTAL_SUM
@@ -105,19 +106,19 @@ public class FillListController {
     }
 
     private void addProducts(final Scanner sc,
-                             final Map<String, Double> listOfPurchases,
+                             final Map<String, BigDecimal> listOfPurchases,
                              final Balance balance) {
 
         System.out.println("\nEnter purchase name:");
         String nameOfProduct = sc.next() + sc.nextLine();
         System.out.println("Enter its price:");
-        double costOfProduct = Double.parseDouble(sc.nextLine());
+        BigDecimal costOfProduct = new BigDecimal(sc.nextLine());
 
         listOfPurchases.put(nameOfProduct, costOfProduct);
         balance.subtractIncome(costOfProduct);
     }
 
-    private void saveList(final Map<String, Double> listOfProducts,
+    private void saveList(final Map<String, BigDecimal> listOfProducts,
                   final String listName, final FileWriter writer)
             throws IOException {
 
