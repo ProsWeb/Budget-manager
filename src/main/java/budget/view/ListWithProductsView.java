@@ -48,8 +48,8 @@ public class ListWithProductsView {
         System.out.println("\nBalance: $" + b.getIncome());
     }
 
-    private void show(
-            final Map<String, BigDecimal> listOfProducts, final String listName) {
+    private void show(final Map<String, BigDecimal> listOfProducts,
+                      final String listName) {
 
         if (listOfProducts.isEmpty()) {
             return;
@@ -60,7 +60,8 @@ public class ListWithProductsView {
                 System.out.println(name + " $" + String.format("%.2f", cost)));
     }
 
-    private BigDecimal getSumOfPurchasesInList(final Map<String, BigDecimal> list) {
+    private BigDecimal getSumOfPurchasesInList(
+            final Map<String, BigDecimal> list) {
 
         return list.values().stream().reduce(BigDecimal.ZERO, BigDecimal::add);
     }

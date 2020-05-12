@@ -90,7 +90,8 @@ public class SortingController {
         }
     }
 
-    public BigDecimal getSumOfPurchasesInList(final Map<String, BigDecimal> list) {
+    public BigDecimal getSumOfPurchasesInList(
+            final Map<String, BigDecimal> list) {
 
         return list.values().stream().reduce(BigDecimal.ZERO, BigDecimal::add);
     }
