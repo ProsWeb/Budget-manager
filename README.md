@@ -9,4 +9,4 @@
 (по всем продуктам, в разрезе категорий, по отдельным категориям).
 
 
-![Alt Text](https://github.com/ProsWeb/Budget-manager/blob/master/download.gif)
+![Alt Text](https://github.com/ProsWeb/Budget-manager/blob/master/BudgetManagerAsciinemaCast.gif)
