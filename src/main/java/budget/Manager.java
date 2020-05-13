@@ -10,9 +10,7 @@ import budget.view.SortingView;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Main {
-
-    private static boolean budgeting = true;
+public class Manager {
 
     public static void main(String[] args) throws IOException {
 
@@ -24,11 +22,12 @@ public class Main {
         SortingView typesView = new SortingView();
         PurchasesView purchasesView = new PurchasesView();
 
-        launch(balance, load, fillListController, sortingController,
+        Manager manager = new Manager();
+        manager.launch(balance, load, fillListController, sortingController,
                 listWithProductsView, typesView, purchasesView);
     }
 
-    public static void launch(final Balance balance, final LoadFromFile load,
+    public void launch(final Balance balance, final LoadFromFile load,
                               final FillListController fillListController,
                               final SortingController sortingController,
                               final ListWithProductsView listView,
@@ -49,6 +48,7 @@ public class Main {
                 + "0) Exit;";
         System.out.println(menu);
 
+        boolean budgeting = true;
         while (budgeting) {
             switch (sc.nextInt()) {
                 case 1:
